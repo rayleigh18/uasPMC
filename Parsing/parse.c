@@ -50,7 +50,7 @@ listDataPen* initList(){
 void printList(listDataPen* listPend){
     for (int i = 0; i < listPend->Neff; i++){
         dataPen temp = listPend->list[i];
-        printf("%d %d %s %s %d/%d/%d %d %c %s %d %s\n",
+        printf("%3d %10d %s %s %d/%d/%d %d %c %s %d %s\n",
             temp.no, temp.nik, temp.nama, temp.tempatLahir,
             temp.tanggalLahir.day, temp.tanggalLahir.month, temp.tanggalLahir.year,
             temp.umur, temp.sex, temp.goldar, temp.status, temp.work  

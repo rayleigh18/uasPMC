@@ -15,7 +15,7 @@ void deleteInList(listDataPen* listPen, int urutan){
 }
 
 void delete(listDataPen* listPen, date dateNow){
-    printf("Masukkan NIK yang inign dihapus");
+    printf("Masukkan NIK yang ingin dihapus");
     int nik;
     scanf("%d", &nik);
     printList(searchNIK(listPen, nik));
@@ -45,19 +45,19 @@ void delete(listDataPen* listPen, date dateNow){
     }
 }
 
-int main(){
-    char* makan = "testData.csv";
-    listDataPen* listPend;
-    listPend = parse(makan, getNowDate());    
+// int main(){
+//     char* makan = "testData.csv";
+//     listDataPen* listPend;
+//     listPend = parse(makan, getNowDate());    
 
-    addDataFromFile(makan, getNowDate(), listPend);
-    printList(listPend);
+//     addDataFromFile(makan, getNowDate(), listPend);
+//     printList(listPend);
 
-    listDataPen* listDataSearch = searchWork(listPend, "Pegawai Swasta");
-    printf("Hasil Search :\n");
-    printList(listDataSearch);
-    delete(listPend, getNowDate());
-    printList(listPend);
-    perror("more details");
-    return 0;
-}
+//     listDataPen* listDataSearch = searchWork(listPend, "Pegawai Swasta");
+//     printf("Hasil Search :\n");
+//     printList(listDataSearch);
+//     delete(listPend, getNowDate());
+//     printList(listPend);
+//     perror("more details");
+//     return 0;
+// }
