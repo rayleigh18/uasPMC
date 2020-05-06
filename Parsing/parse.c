@@ -69,7 +69,9 @@ void addToList(listDataPen* listPend, dataPen dataPenduduk){
 
 dataPen processLine(char* line, date dateNow){
     dataPen temp_pend;
-
+    if (line[strlen(line)-1] == '~'){
+        line[strlen(line)-1] = '\0';
+    } // menghapus tilde
     char* tok;
 
     tok = strtok(line, ";");
@@ -103,6 +105,7 @@ dataPen processLine(char* line, date dateNow){
     else temp_pend.status = TIDAK_KAWIN;
 
     tok = strtok(NULL, ";");
+
     strcpy(temp_pend.work, tok);
 
     return temp_pend;
@@ -120,8 +123,9 @@ listDataPen* parse(char* namaFile, date dateNow){
     while (fgets(line, 1024, f)){
         //printf("debug\n");
         char* temp_line = strtok(line,"\n");
-        char* tilde_line = strtok(line, "~");
-        dataPen temp_pend = processLine(tilde_line, dateNow);
+
+        
+        dataPen temp_pend = processLine(temp_line, dateNow);
 
         addToList(listPen, temp_pend);
     }
