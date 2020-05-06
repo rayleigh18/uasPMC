@@ -6,7 +6,7 @@
 #include "update.h"
 #include "search.h"
 
-void update(listDataPen* listPen){
+void update(listDataPen* listPen, date dateNow){
     printf("Masukkan NIK anda :");
     int nik;
     
@@ -33,50 +33,58 @@ void update(listDataPen* listPen){
     printf("Tentukan yang mana data anda:\n");
     printList(listNik);
     int pilihan;
-    scanf("%d", pilihan);
-    while (pilihan < 1 || pilihan > listNik->Neff){
+    scanf("%d", &pilihan);
+    while (pilihan < 1 || pilihan > (listNik->Neff)){
         printf("Masukkan data yang benar\nTentukan yang mana data anda:\n");
-        scanf("%d", pilihan);
+        scanf("%d", &pilihan);
     }
-    dataPen* tempPend = listNik->list + pilihan;
+    dataPen* tempPend = listNik->list + pilihan - 1;
     printf("Pilih yang anda ingin ubah :\n");
     printf("0. NIK\n1. Nama\n2. Tempat Lahir\n3. Tanggal Lahir\n4. Jenis Kelamin\n5. Golongan Darah\n6. Status\n7. Pekerjaan\n");
     
     scanf("%d",&pilihan);
+    // Bagian memasukkan pilihan, next tambahin pakai while gitu
     if (pilihan == 1){  
         printf("Masukkan nama baru:");
-        scanf("%s", &(tempPend->nama));
+        fflush(stdin);
+        scanf("%[^\n]%*c", (tempPend->nama));
     }
     if (pilihan == 2){  
         printf("Masukkan tempat Lahir baru:");
-        scanf("%s", &(tempPend->tempatLahir));
+        fflush(stdin);
+        scanf("%[^\n]%*c", (tempPend->tempatLahir));
     }
     if (pilihan == 3){  
         printf("Masukkan Tanggal Lahir baru:");
         date temp_date; // need pemeriksa
-        scanf("%d",temp_date.day);
+        scanf("%d",&(temp_date.day));
         printf("Masukkan Bulan Lahir baru:");
-        scanf("%d",temp_date.month);
+        scanf("%d",&(temp_date.month));
         printf("Masukkan Tahun Lahir baru:");
-        scanf("%d",temp_date.year);
+        scanf("%d",&(temp_date.year));
         tempPend->tanggalLahir = temp_date;
+        tempPend->umur = findUmur(temp_date, dateNow);
     }
     if (pilihan == 4){
-        char sex_temp;
-        printf("Masukkan Jenis Kelamin:");
-        scanf("%c",&sex_temp);
-        while (sex_temp != 'P' || sex_temp != 'L'){
+        int sex_temp;
+        printf("Masukkan Jenis Kelamin:\n");
+        printf("1. Pria\n2Wanita\n");
+        fflush(stdin);
+        scanf("%d",&sex_temp);// supaya gampang, dibuat integer saja
+        while (sex_temp != 1 && sex_temp != 2){// udah pemeriksa, belum test
             printf("Jenis kelamin tidak dikenali\nMasukkan Jenis Kelamin:");
-            scanf("%c",&sex_temp);
+            printf("1. Pria\n2Wanita\n");
+            fflush(stdin);
+            scanf("%d",&sex_temp);
         }
-        tempPend->sex = sex_temp;
+        tempPend->sex = sex_temp == 1 ? 'L': 'P' ;
     }
     if (pilihan == 5){
         char goldar[4];
         printf("Masukkan Golongan Darah yang baru:");
         scanf("%s",goldar);
 
-        while (!strcmp(goldar, "A") ||!strcmp(goldar, "B") ||!strcmp(goldar, "AB") ||!strcmp(goldar, "O")){
+        while (strcmp(goldar, "A") && strcmp(goldar, "B") && strcmp(goldar, "AB") && strcmp(goldar, "O")){
             printf("Golongan darah yang anda masukkan salah\nMasukkan Golongan Darah yang baru:");
             scanf("%s",goldar);
         }
@@ -88,7 +96,7 @@ void update(listDataPen* listPen){
         printf("0. Tidak  1. Ya");
         int nikah;
         scanf("%d", &nikah);
-        while (nikah != 0 || nikah != 1){
+        while (nikah != 0 && nikah != 1){
             printf("Apakah anda sudah menikah?\n");
             printf("0. Tidak  1. Ya");
             int nikah;
@@ -99,8 +107,11 @@ void update(listDataPen* listPen){
 
     if (pilihan == 7){  
         printf("Masukkan Pekerjaan Anda:");
-        scanf("%s", &(tempPend->work));
-    }
+        fflush(stdin);
+        scanf("%[^\n]%*c", (tempPend->work));
+    }   
+    // ngeliat apakah sudah berubah
+    printList(listNik);
 }
 
 int main(){
@@ -114,7 +125,7 @@ int main(){
     listDataPen* listDataSearch = searchWork(listPend, "Pegawai Swasta");
     printf("hasil Search :\n");
     printList(listDataSearch);
-    update(listPend);
+    update(listPend, getNowDate());
     perror("more details");
     return 0;
 }
