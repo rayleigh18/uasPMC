@@ -59,11 +59,52 @@ void printList(listDataPen* listPend){
 
 void addToList(listDataPen* listPend, dataPen dataPenduduk){
     
-    listPend->list = (dataPen*)realloc(listPend->list, listPend->Neff + 1);
+    listPend->list = (dataPen*)realloc(listPend->list, sizeof(dataPen)*((listPend->Neff) +1));
     
     (listPend->list)[listPend->Neff] = dataPenduduk;
     listPend->Neff += 1;
-    printList(listPend);
+    //printList(listPend);
+}
+
+dataPen processLine(char* line, date dateNow){
+    dataPen temp_pend;
+
+    char* tok;
+
+    tok = strtok(line, ";");
+    temp_pend.no = atoi(tok);    
+
+    tok = strtok(NULL, ";");
+    temp_pend.nik = atoi(tok);    
+
+    tok = strtok(NULL, ";");    
+    strcpy(temp_pend.nama, tok);    
+
+    tok = strtok(NULL, ";");
+    strcpy(temp_pend.tempatLahir, tok);    
+
+    tok = strtok(NULL, ";");
+    temp_pend.tanggalLahir = stringToTanggal(tok);
+
+    tok = strtok(NULL, ";");
+    temp_pend.umur = findUmur(temp_pend.tanggalLahir, dateNow);
+
+    tok = strtok(NULL, ";");
+    temp_pend.sex = tok[0];
+
+    tok = strtok(NULL, ";");
+    strcpy(temp_pend.goldar, tok);
+
+    tok = strtok(NULL, ";");
+    if (tok[0] == 'K' || tok[0] == 'k'){
+        temp_pend.status = KAWIN;
+    }
+    else temp_pend.status = TIDAK_KAWIN;
+
+    tok = strtok(NULL, ";");
+    strcpy(temp_pend.work, tok);
+
+    return temp_pend;
 }
 
 
@@ -73,83 +114,44 @@ listDataPen* parse(char* namaFile, date dateNow){
     
     listDataPen *listPen = initList();
     
-    char line[4098];
-    fgets(line,4098,f);
-    printf("%s\n",line);
-    while (fgets(line, 4098, f)){
-        
-        dataPen temp_pend;
-        printf("%s\n",line);
-        char *tmp = strdup(line);
-        const char* tok;
-
-        tok = strtok(tmp, ";");
-        temp_pend.no = atoi(tok);
-        printf("%s\n",tok);
-        
-
-        tok = strtok(NULL, ";");
-        temp_pend.nik = atoi(tok);
-        printf("%s\n",tok);
-        
-
-        tok = strtok(NULL, ";");
-        temp_pend.nama = (char*)malloc(sizeof(char)*(strlen(tok)+1));
-        printf("%s\n",tok);
-        strcpy(temp_pend.nama, tok);    
-        
-        
-
-        tok = strtok(NULL, ";");
-        temp_pend.tempatLahir = (char*)malloc(sizeof(char)*(strlen(tok)+1));
-        strcpy(temp_pend.tempatLahir, tok);
-        printf("%s\n",tok);
-        
-
-        tok = strtok(NULL, ";");
-        temp_pend.tanggalLahir = stringToTanggal(tok);
-        printf("%s\n",tok);
-
-        tok = strtok(NULL, ";");
-        temp_pend.umur = findUmur(temp_pend.tanggalLahir, dateNow);
-        printf("%s\n",tok);
-
-        tok = strtok(NULL, ";");
-        temp_pend.sex = tok[0];
-        printf("%s\n",tok);
-
-        tok = strtok(NULL, ";");
-        temp_pend.goldar = (char*)malloc(sizeof(char)*(strlen(tok)+1));
-        strcpy(temp_pend.goldar, tok);
-        printf("%s\n",tok);
-
-        tok = strtok(NULL, ";");
-        if (tok[0] == 'K' || tok[0] == 'k'){
-            temp_pend.status = KAWIN;
-        }
-        else temp_pend.status = TIDAK_KAWIN;
-        printf("%s\n",tok);
-
-        tok = strtok(NULL, "\n");
-        temp_pend.work = (char*)malloc(sizeof(char)*(strlen(tok)+1));
-        strcpy(temp_pend.work, tok);
-        printf("%s\n",tok);
-
-        tok = strtok(NULL, "\n");
+    char line[1024];
+    fgets(line,1024,f);
+    while (fgets(line, 1024, f)){
+        //printf("debug\n");
+        char* temp_line = strtok(line,"\n");
+        dataPen temp_pend = processLine(temp_line, dateNow);
 
         addToList(listPen, temp_pend);
-
-        free(tmp);
     }
 
+    return listPen;
 }
 
-int main(){
-    char* makan = "testData.csv";
-    listDataPen* listPend;
-    listPend = parse(makan, getNowDate());
+void* addDataFromFile(char* namaFile, date dateNow, listDataPen *listPen){
+    FILE* f = fopen(namaFile, "r");
+    
+    char line[1024];
+    fgets(line,1024,f);
+    while (fgets(line, 1024, f)){
+        //printf("debug\n");
+        char* temp_line = strtok(line,"\n");
+        dataPen temp_pend = processLine(temp_line, dateNow);
 
-    printList(listPend);
-    perror("more details");
-    return 0;
+        addToList(listPen, temp_pend);
+    }
+
+    return listPen;
 }
+
+// int main(){
+//     char* makan = "testData.csv";
+//     listDataPen* listPend;
+//     listPend = parse(makan, getNowDate());
+
+    
+
+//     addDataFromFile(makan, getNowDate(), listPend);
+//     printList(listPend);
+//     perror("more details");
+//     return 0;
+// }
