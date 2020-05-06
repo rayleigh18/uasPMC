@@ -10,6 +10,10 @@ int findUmur(date dateBorn, date dateNow);
 date stringToTanggal(char* data);
 date getNowDate();
 listDataPen* parse(char* namaFile, date dateNow);
+listDataPen* initList();
+void printList(listDataPen* listPend);
+void addToList(listDataPen* listPend, dataPen dataPenduduk);
+void* addDataFromFile(char* namaFile, date dateNow, listDataPen *listPen);
 
 
 

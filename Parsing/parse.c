@@ -1,6 +1,7 @@
 #include <stdio.h>
-#include "parse.h"
 #include <time.h>
+#include "parse.h"
+
 #include "string.h"
 #include "stdlib.h"
 #define angka(c) ((int)(c)-'0')
@@ -60,7 +61,7 @@ void printList(listDataPen* listPend){
 void addToList(listDataPen* listPend, dataPen dataPenduduk){
     
     listPend->list = (dataPen*)realloc(listPend->list, sizeof(dataPen)*((listPend->Neff) +1));
-    
+    dataPenduduk.no = listPend->Neff + 1;
     (listPend->list)[listPend->Neff] = dataPenduduk;
     listPend->Neff += 1;
     //printList(listPend);
@@ -143,15 +144,3 @@ void* addDataFromFile(char* namaFile, date dateNow, listDataPen *listPen){
     return listPen;
 }
 
-// int main(){
-//     char* makan = "testData.csv";
-//     listDataPen* listPend;
-//     listPend = parse(makan, getNowDate());
-
-    
-
-//     addDataFromFile(makan, getNowDate(), listPend);
-//     printList(listPend);
-//     perror("more details");
-//     return 0;
-// }
