@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "parse.h"
 #include <time.h>
-
+#include "string.h"
+#include "stdlib.h"
 #define angka(c) ((int)(c)-'0')
 
 date stringToTanggal(char* data){
@@ -38,13 +39,117 @@ int findUmur(date dateBorn, date dateNow){
     return temp;
 }
 
+listDataPen* initList(){
+    listDataPen* temp = (listDataPen*)malloc(sizeof(listDataPen));
+    
+    temp->list = (dataPen*)malloc(10*sizeof(dataPen));
+    temp->Neff = 0; 
+    return temp;
+}
+void printList(listDataPen* listPend){
+    for (int i = 0; i < listPend->Neff; i++){
+        dataPen temp = listPend->list[i];
+        printf("%d %d %s %s %d/%d/%d %d %c %s %d %s\n",
+            temp.no, temp.nik, temp.nama, temp.tempatLahir,
+            temp.tanggalLahir.day, temp.tanggalLahir.month, temp.tanggalLahir.year,
+            temp.umur, temp.sex, temp.goldar, temp.status, temp.work  
+        );
+    }
+}
+
+void addToList(listDataPen* listPend, dataPen dataPenduduk){
+    
+    listPend->list = (dataPen*)realloc(listPend->list, listPend->Neff + 1);
+    
+    (listPend->list)[listPend->Neff] = dataPenduduk;
+    listPend->Neff += 1;
+    printList(listPend);
+}
+
+
+
+listDataPen* parse(char* namaFile, date dateNow){
+    FILE* f = fopen(namaFile, "r");
+    
+    listDataPen *listPen = initList();
+    
+    char line[4098];
+    fgets(line,4098,f);
+    printf("%s\n",line);
+    while (fgets(line, 4098, f)){
+        
+        dataPen temp_pend;
+        printf("%s\n",line);
+        char *tmp = strdup(line);
+        const char* tok;
+
+        tok = strtok(tmp, ";");
+        temp_pend.no = atoi(tok);
+        printf("%s\n",tok);
+        
+
+        tok = strtok(NULL, ";");
+        temp_pend.nik = atoi(tok);
+        printf("%s\n",tok);
+        
+
+        tok = strtok(NULL, ";");
+        temp_pend.nama = (char*)malloc(sizeof(char)*(strlen(tok)+1));
+        printf("%s\n",tok);
+        strcpy(temp_pend.nama, tok);    
+        
+        
+
+        tok = strtok(NULL, ";");
+        temp_pend.tempatLahir = (char*)malloc(sizeof(char)*(strlen(tok)+1));
+        strcpy(temp_pend.tempatLahir, tok);
+        printf("%s\n",tok);
+        
+
+        tok = strtok(NULL, ";");
+        temp_pend.tanggalLahir = stringToTanggal(tok);
+        printf("%s\n",tok);
+
+        tok = strtok(NULL, ";");
+        temp_pend.umur = findUmur(temp_pend.tanggalLahir, dateNow);
+        printf("%s\n",tok);
+
+        tok = strtok(NULL, ";");
+        temp_pend.sex = tok[0];
+        printf("%s\n",tok);
+
+        tok = strtok(NULL, ";");
+        temp_pend.goldar = (char*)malloc(sizeof(char)*(strlen(tok)+1));
+        strcpy(temp_pend.goldar, tok);
+        printf("%s\n",tok);
+
+        tok = strtok(NULL, ";");
+        if (tok[0] == 'K' || tok[0] == 'k'){
+            temp_pend.status = KAWIN;
+        }
+        else temp_pend.status = TIDAK_KAWIN;
+        printf("%s\n",tok);
+
+        tok = strtok(NULL, "\n");
+        temp_pend.work = (char*)malloc(sizeof(char)*(strlen(tok)+1));
+        strcpy(temp_pend.work, tok);
+        printf("%s\n",tok);
+
+        tok = strtok(NULL, "\n");
+
+        addToList(listPen, temp_pend);
+
+        free(tmp);
+    }
+
+}
 
 int main(){
-    char* makan = "06062000";
-    date now = getNowDate();
-    date mein =  stringToTanggal(makan);
-    printf("date lahir = %d %d %d\n", mein.day, mein.month, mein.year);
-    printf("umur kamu adalah %d\n",findUmur(mein, now));
+    char* makan = "testData.csv";
+    listDataPen* listPend;
+    listPend = parse(makan, getNowDate());
 
+    printList(listPend);
+    perror("more details");
     return 0;
 }
