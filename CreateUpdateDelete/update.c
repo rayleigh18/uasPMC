@@ -114,18 +114,18 @@ void update(listDataPen* listPen, date dateNow){
     printList(listNik);
 }
 
-int main(){
-    char* makan = "testData.csv";
-    listDataPen* listPend;
-    listPend = parse(makan, getNowDate());    
+// int main(){
+//     char* makan = "testData.csv";
+//     listDataPen* listPend;
+//     listPend = parse(makan, getNowDate());    
 
-    addDataFromFile(makan, getNowDate(), listPend);
-    printList(listPend);
+//     addDataFromFile(makan, getNowDate(), listPend);
+//     printList(listPend);
 
-    listDataPen* listDataSearch = searchWork(listPend, "Pegawai Swasta");
-    printf("hasil Search :\n");
-    printList(listDataSearch);
-    update(listPend, getNowDate());
-    perror("more details");
-    return 0;
-}
+//     listDataPen* listDataSearch = searchWork(listPend, "Pegawai Swasta");
+//     printf("hasil Search :\n");
+//     printList(listDataSearch);
+//     update(listPend, getNowDate());
+//     perror("more details");
+//     return 0;
+// }

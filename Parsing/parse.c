@@ -120,7 +120,8 @@ listDataPen* parse(char* namaFile, date dateNow){
     while (fgets(line, 1024, f)){
         //printf("debug\n");
         char* temp_line = strtok(line,"\n");
-        dataPen temp_pend = processLine(temp_line, dateNow);
+        char* tilde_line = strtok(line, "~");
+        dataPen temp_pend = processLine(tilde_line, dateNow);
 
         addToList(listPen, temp_pend);
     }
