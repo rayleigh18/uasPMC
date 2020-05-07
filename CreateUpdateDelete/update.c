@@ -30,8 +30,8 @@ void update(listDataPen* listPen, date dateNow){
         
     }
 
-    printf("Tentukan yang mana data anda:\n");
-    printList(listNik);
+    printList(listNik,STATE_NOT_PRINT);
+    printf("Tentukan yang mana data anda: ");
     int pilihan;
     scanf("%d", &pilihan);
     while (pilihan < 1 || pilihan > (listNik->Neff)){
@@ -111,7 +111,7 @@ void update(listDataPen* listPen, date dateNow){
         scanf("%[^\n]%*c", (tempPend->work));
     }   
     // ngeliat apakah sudah berubah
-    printList(listNik);
+    printList(listNik,STATE_NOT_PRINT);
 }
 
 // int main(){

@@ -50,12 +50,12 @@ int main(){
         if (menu_now == 1){
             strcpy(fileName, askFileName());
             list_penduduk = parse(fileName, date_now);
-            printList(list_penduduk);
+            printList(list_penduduk, STATE_NOT_PRINT);
         }
         else if(menu_now == 2){
             strcpy(fileName, askFileName());
             addDataFromFile(fileName, date_now, list_penduduk);
-            printList(list_penduduk);
+            printList(list_penduduk,STATE_PRINT);
         }
         else if (menu_now == 3){
             addDataToListPen(list_penduduk, date_now);
@@ -71,25 +71,25 @@ int main(){
             print("1. Ascending 2. Descending");
             int order_in, order;
 
-            printf("Masukkan order sort");
+            printf("Masukkan order sort: ");
             scanf("%d", &order_in);
             if (order_in == 1){
                 order = ASCENDING;
             }
             else order = DESCENDING;
 
-            print("1. NIK   2. Umur  3. No  4. Goldar  5. Status 6. Nama 7. Pekerjaan  8. Tanggal  9. Tempat Lahir");
+            print("Daftar yang bisa\n1. NIK   \n2. Umur  \n3. No  \n4. Goldar  \n5. Status \n6. Nama \n7. Pekerjaan  \n8. Tanggal  \n9. Tempat Lahir");
             int type;
-            printf("Masukkan tipe");
+            printf("Masukkan tipe: ");
             scanf("%d", &type);
 
             sort(sortData, 0, (sortData->Neff)-1,type,order);
 
-            printList(sortData);
+            printList(sortData,STATE_PRINT);
             
         }
         else if (menu_now == 7){
-            printList(list_penduduk);
+            printList(list_penduduk,STATE_PRINT);
         }
         else if (menu_now == 8){
             delete(list_penduduk, date_now);
@@ -150,6 +150,7 @@ void menuSearch(listDataPen *list_penduduk){
         printf("Masukkan menu yang valid:");
         scanf("%d", &menu_pilihan);
     }
+    fflush(stdin);
     listDataPen* temp_list = list_penduduk;
     if (menu_pilihan == 1){
         int nik_temp;
@@ -157,10 +158,10 @@ void menuSearch(listDataPen *list_penduduk){
         scanf("%d", &nik_temp);
         temp_list = searchNIK(temp_list, nik_temp);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
     else if (menu_pilihan == 2){
@@ -169,10 +170,10 @@ void menuSearch(listDataPen *list_penduduk){
         scanf("%[^\n]%*c", name);
         temp_list = searchName(temp_list, name);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
     else if (menu_pilihan == 3){
@@ -181,10 +182,10 @@ void menuSearch(listDataPen *list_penduduk){
         scanf("%[^\n]%*c", tempat);
         temp_list = searchTempatLahir(temp_list, tempat);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
     else if (menu_pilihan == 4){
@@ -199,10 +200,10 @@ void menuSearch(listDataPen *list_penduduk){
         temp_list = searchTanggalLahir(temp_list, temp_date);
 
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
     
@@ -212,10 +213,10 @@ void menuSearch(listDataPen *list_penduduk){
         scanf("%d", &age);
         temp_list = searchUmur(temp_list, age);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
     
@@ -226,10 +227,10 @@ void menuSearch(listDataPen *list_penduduk){
         scanf("%c", &sex);
         temp_list = searchSex(temp_list, sex);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
 
@@ -244,10 +245,10 @@ void menuSearch(listDataPen *list_penduduk){
         }
         temp_list = searchGolDar(temp_list, goldar);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
 
@@ -264,10 +265,10 @@ void menuSearch(listDataPen *list_penduduk){
         }
         temp_list = searchStatus(temp_list, nikah);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
     else if (menu_pilihan == 9){
@@ -277,10 +278,10 @@ void menuSearch(listDataPen *list_penduduk){
         scanf("%[^\n]%*c", tempWork);
         temp_list = searchWork(temp_list, tempWork);
         if (temp_list->Neff == 0){
-            print("Tidak ditemukan");
+            print("Tidak ditemukan\n");
         }
         else{
-            printList(temp_list);
+            printList(temp_list,STATE_PRINT);
         }
     }
     

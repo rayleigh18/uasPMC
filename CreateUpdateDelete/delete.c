@@ -18,7 +18,7 @@ void delete(listDataPen* listPen, date dateNow){
     printf("Masukkan NIK yang ingin dihapus: ");
     int nik;
     scanf("%d", &nik);
-    printList(searchNIK(listPen, nik));
+    printList(searchNIK(listPen, nik), STATE_NOT_PRINT);
     int nomorHapus;
     listDataPen* temp_list = initList();
     

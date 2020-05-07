@@ -9,24 +9,24 @@
 #include "adding.h"
 
 void addDataToListPen(listDataPen *listPen, date dateNow){
-    printf("Masukkan NIK");
+    printf("Masukkan NIK: ");
     dataPen *tempPend = (dataPen*)malloc(sizeof(dataPen));
     scanf("%d",&(tempPend->nik));
 
-    printf("Masukkan nama:");
+    printf("Masukkan nama: ");
     fflush(stdin);
     scanf("%[^\n]%*c", (tempPend->nama));
 
-    printf("Masukkan tempat Lahir baru:");
+    printf("Masukkan Tempat Lahir: ");
     fflush(stdin);
     scanf("%[^\n]%*c", (tempPend->tempatLahir));
 
-    printf("Masukkan Tanggal Lahir baru:");
+    printf("Masukkan Tanggal Lahir: ");
     date temp_date; // need pemeriksa
     scanf("%d",&(temp_date.day));
-    printf("Masukkan Bulan Lahir baru:");
+    printf("Masukkan Bulan Lahir: ");
     scanf("%d",&(temp_date.month));
-    printf("Masukkan Tahun Lahir baru:");
+    printf("Masukkan Tahun Lahir: ");
     scanf("%d",&(temp_date.year));
     tempPend->tanggalLahir = temp_date;
     
@@ -34,43 +34,48 @@ void addDataToListPen(listDataPen *listPen, date dateNow){
 
     int sex_temp;
     printf("Masukkan Jenis Kelamin:\n");
-    printf("1. Pria\n2Wanita\n");
+    printf("1. Pria\n2. Wanita\n");
     fflush(stdin);
+    printf("Jenis kelamin anda :");
     scanf("%d",&sex_temp);// supaya gampang, dibuat integer saja
     while (sex_temp != 1 && sex_temp != 2){
         printf("Jenis kelamin tidak dikenali\nMasukkan Jenis Kelamin:");
         printf("1. Pria\n2. Wanita\n");
         fflush(stdin);
+        printf("Jenis kelamin anda :");
         scanf("%d",&sex_temp);
     }
     tempPend->sex = sex_temp == 1 ? 'L': 'P' ;
 
     char goldar[4];
-    printf("Masukkan Golongan Darah yang baru:");
+    printf("Masukkan Golongan Darah: ");
     scanf("%s",goldar);
 
     while (strcmp(goldar, "A") && strcmp(goldar, "B") && strcmp(goldar, "AB") && strcmp(goldar, "O")){
-        printf("Golongan darah yang anda masukkan salah\nMasukkan Golongan Darah yang baru:");
+        printf("Golongan darah yang anda masukkan salah\nMasukkan Golongan Darah: ");
         scanf("%s",goldar);
     }
     strcpy(tempPend->goldar, goldar);
 
     printf("Apakah anda sudah menikah?\n");
-    printf("0. Tidak  1. Ya");
+    printf("0. Tidak  1. Ya\n");
     int nikah;
+    printf("Jawaban anda :");
     scanf("%d", &nikah);
     while (nikah != 0 && nikah != 1){
         printf("Apakah anda sudah menikah?\n");
-        printf("0. Tidak  1. Ya");
+        
+        printf("0. Tidak  1. Ya\n");
+        printf("Jawaban anda: ");
         int nikah;
         scanf("%d", &nikah);
     }
     tempPend->status = nikah;
 
-    printf("Masukkan Pekerjaan Anda:");
+    printf("Masukkan Pekerjaan Anda: ");
     fflush(stdin);
     scanf("%[^\n]%*c", (tempPend->work));
 
     addToList(listPen,*tempPend);
-    printf("debug");
+    // printf("debug");
 }

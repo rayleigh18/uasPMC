@@ -11,6 +11,9 @@
 #define KAWIN 1
 #define TIDAK_KAWIN 0
 
+#define STATE_PRINT 1
+#define STATE_NOT_PRINT 0
+
 typedef struct date{
     int day;
     int month;

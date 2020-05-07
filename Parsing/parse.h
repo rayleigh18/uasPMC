@@ -11,7 +11,7 @@ date stringToTanggal(char* data);
 date getNowDate();
 listDataPen* parse(char* namaFile, date dateNow);
 listDataPen* initList();
-void printList(listDataPen* listPend);
+void printList(listDataPen* listPend, int state);
 void addToList(listDataPen* listPend, dataPen dataPenduduk);
 void* addDataFromFile(char* namaFile, date dateNow, listDataPen *listPen);
 
