@@ -71,7 +71,7 @@ void update(listDataPen* listPen, date dateNow){
         printf("1. Pria\n2Wanita\n");
         fflush(stdin);
         scanf("%d",&sex_temp);// supaya gampang, dibuat integer saja
-        while (sex_temp != 1 && sex_temp != 2){// udah pemeriksa, belum test
+        while (sex_temp != 1 && sex_temp != 2){
             printf("Jenis kelamin tidak dikenali\nMasukkan Jenis Kelamin:");
             printf("1. Pria\n2Wanita\n");
             fflush(stdin);

@@ -48,20 +48,53 @@ listDataPen* initList(){
     return temp;
 }
 void printList(listDataPen* listPend){
+    printf("%3s %10s %20s %20s %10s %5s %4s %6s %11s %20s\n", "No", "NIK",
+    "Nama", "Tempat Lahir", "Tanggal Lahir", "Umur", "Sex", "Darah", "Status", "Pekerjaan");
     for (int i = 0; i < listPend->Neff; i++){
         dataPen temp = listPend->list[i];
-        printf("%3d %10d %s %s %d/%d/%d %d %c %s %d %s\n",
+        printf("%3d %10d %20s %20s    %2d/%2d/%4d %5d %4c %6s %11s %20s\n",
             temp.no, temp.nik, temp.nama, temp.tempatLahir,
             temp.tanggalLahir.day, temp.tanggalLahir.month, temp.tanggalLahir.year,
-            temp.umur, temp.sex, temp.goldar, temp.status, temp.work  
+            temp.umur, temp.sex, temp.goldar, (temp.status == 1) ? "Kawin" : "Tidak Kawin" 
+            , temp.work  
         );
     }
+    int pilihan;
+    printf("Masukkan ke File?\n");
+    printf("0. Tidak   1. Ya \n");
+    printf("Jawaban anda:");
+    scanf("%d",&pilihan);
+    char fileName[1000];
+    if (pilihan == 1){
+        strcpy(fileName, askFileName());
+        FILE *f = fopen(fileName, "w");
+        fprintf(f,"%s",header);
+        for (int i = 0; i < listPend->Neff; i++){
+        dataPen temp = listPend->list[i];
+        fprintf(f,"\n");
+        fprintf(f,"%d;%d;%s;%s;%s%d%s%d%s%s%s%d;%d;%c;%s;%s;%s",
+            temp.no, temp.nik, temp.nama, temp.tempatLahir,
+            (temp.tanggalLahir.day < 10) ? "0" :"",
+            temp.tanggalLahir.day,
+            (temp.tanggalLahir.month < 10) ? "0" :"",
+            temp.tanggalLahir.month,
+            (temp.tanggalLahir.year < 10) ? "0" :"",
+            (temp.tanggalLahir.year < 100) ? "0" :"",
+            (temp.tanggalLahir.year < 1000) ? "0" :"",
+            temp.tanggalLahir.year,
+            temp.umur, temp.sex, temp.goldar, (temp.status == 1) ? "Kawin" : "Tidak Kawin" 
+            , temp.work  
+        );
+    }
+    }
+
+
 }
 
 void addToList(listDataPen* listPend, dataPen dataPenduduk){
     
     listPend->list = (dataPen*)realloc(listPend->list, sizeof(dataPen)*((listPend->Neff) +1));
-    dataPenduduk.no = listPend->Neff + 1;
+    dataPenduduk.no = (listPend->Neff) + 1;
     (listPend->list)[listPend->Neff] = dataPenduduk;
     listPend->Neff += 1;
     //printList(listPend);
@@ -130,6 +163,8 @@ listDataPen* parse(char* namaFile, date dateNow){
         addToList(listPen, temp_pend);
     }
 
+    fclose(f);
+
     return listPen;
 }
 
@@ -145,6 +180,8 @@ void* addDataFromFile(char* namaFile, date dateNow, listDataPen *listPen){
 
         addToList(listPen, temp_pend);
     }
+
+    fclose(f);
 
     return listPen;
 }

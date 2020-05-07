@@ -4,12 +4,8 @@
 #include "../configuration.h"
 #include "../Parsing/parse.h"
 #include "search.h"
+#include "sorting.h"
 
-#define NIK_type 1
-#define Umur_type 2
-
-#define ASCENDING 1
-#define DESCENDING -1
 
 void merge(listDataPen *f, int low,int middle, int high,int type, int order){
 
@@ -37,6 +33,92 @@ void merge(listDataPen *f, int low,int middle, int high,int type, int order){
         else if (type == Umur_type){
             left_i = Lf[i].umur;
             right_j = Rf[j].umur;
+        }
+        else if (type == No_type){
+            left_i = Lf[i].no;
+            right_j = Rf[j].no;
+        }
+        else if (type == Goldar_type){
+            if (strlen(Lf[i].goldar) == 1){
+                left_i = (int)Lf[i].goldar[0];
+            }
+            else{
+                left_i = (int)Lf[i].goldar[0] +(int)Lf[i].goldar[1];
+            }
+
+            if (strlen(Rf[j].goldar) == 1){
+                right_j = (int)Rf[j].goldar[0];
+            }
+            else{
+                right_j = (int)Rf[j].goldar[0] +(int)Rf[j].goldar[1];
+            }
+            
+        }
+        else if (type == Status_type){
+            left_i = Lf[i].status;
+            right_j = Rf[j].status;
+        }
+        else if (type == nama_type){
+            if (strcmp(Lf[i].nama , Rf[j].nama) < 0){
+                left_i = 0;
+                right_j = 1;
+            }
+            else{
+                right_j = 0;
+                left_i = 1;
+            }
+        }
+        else if (type == kerja_type){
+            if (strcmp(Lf[i].work , Rf[j].work) < 0){
+                left_i = 0;
+                right_j = 1;
+            }
+            else{
+                right_j = 0;
+                left_i = 1;
+            }
+        }
+        else if(type == tanggal_type){
+            if (Lf[i].tanggalLahir.year < Rf[i].tanggalLahir.year){
+                left_i = 0;
+                right_j = 1;
+            }
+            else if (Lf[i].tanggalLahir.year > Rf[i].tanggalLahir.year){
+                left_i = 1;
+                right_j = 0;
+            }
+            else{
+                if (Lf[i].tanggalLahir.month < Rf[i].tanggalLahir.month){
+                    left_i = 0;
+                    right_j = 1;
+                }
+                else if (Lf[i].tanggalLahir.month > Rf[i].tanggalLahir.month){
+                    left_i = 1;
+                    right_j = 0;
+                }
+                else{
+                    if (Lf[i].tanggalLahir.day <= Rf[i].tanggalLahir.day){
+                        left_i = 0;
+                        right_j = 1;
+                    }
+                    else if (Lf[i].tanggalLahir.day > Rf[i].tanggalLahir.day){
+                        left_i = 1;
+                        right_j = 0;
+                    }
+                }
+            }
+            
+        }
+        
+        else if (type == tempat_type){
+            if (strcmp(Lf[i].tempatLahir , Rf[j].tempatLahir) < 0){
+                left_i = 0;
+                right_j = 1;
+            }
+            else{
+                right_j = 0;
+                left_i = 1;
+            }
         }
         if (order*left_i <= order*right_j){
             f->list[k] = Lf[i];

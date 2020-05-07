@@ -15,7 +15,7 @@ void deleteInList(listDataPen* listPen, int urutan){
 }
 
 void delete(listDataPen* listPen, date dateNow){
-    printf("Masukkan NIK yang ingin dihapus");
+    printf("Masukkan NIK yang ingin dihapus: ");
     int nik;
     scanf("%d", &nik);
     printList(searchNIK(listPen, nik));
