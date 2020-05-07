@@ -26,7 +26,7 @@ void update(listDataPen* listPen, date dateNow){
            return;
         }
 
-        listDataPen* listNik = searchNIK(listPen, nik);
+        listNik = searchNIK(listPen, nik);
         
     }
 
@@ -35,12 +35,13 @@ void update(listDataPen* listPen, date dateNow){
     int pilihan;
     scanf("%d", &pilihan);
     while (pilihan < 1 || pilihan > (listNik->Neff)){
-        printf("Masukkan data yang benar\nTentukan yang mana data anda:\n");
+        printf("Masukkan data yang benar\nTentukan yang mana data anda:");
         scanf("%d", &pilihan);
     }
+    int pilihanMenu = pilihan;// buat update
     dataPen* tempPend = listNik->list + pilihan - 1;
     printf("Pilih yang anda ingin ubah :\n");
-    printf("0. NIK\n1. Nama\n2. Tempat Lahir\n3. Tanggal Lahir\n4. Jenis Kelamin\n5. Golongan Darah\n6. Status\n7. Pekerjaan\n");
+    printf("1. Nama\n2. Tempat Lahir\n3. Tanggal Lahir\n4. Jenis Kelamin\n5. Golongan Darah\n6. Status\n7. Pekerjaan\n");
     
     scanf("%d",&pilihan);
     // Bagian memasukkan pilihan, next tambahin pakai while gitu
@@ -112,6 +113,17 @@ void update(listDataPen* listPen, date dateNow){
     }   
     // ngeliat apakah sudah berubah
     printList(listNik,STATE_NOT_PRINT);
+
+    // change in array
+    int counter = 0;
+    for (int i = 0; i < listPen->Neff; i++){
+        if (listPen->list[i].nik==nik){
+            counter += 1;
+            if (counter == pilihanMenu){                
+                listPen->list[i] = listNik->list[pilihanMenu-1];
+            }
+        }
+    }
 }
 
 // int main(){

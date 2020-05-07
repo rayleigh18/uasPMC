@@ -47,26 +47,28 @@ void addDataToListPen(listDataPen *listPen, date dateNow){
     }
     tempPend->sex = sex_temp == 1 ? 'L': 'P' ;
 
+    fflush(stdin);
     char goldar[4];
-    printf("Masukkan Golongan Darah: ");
+    printf("Masukkan Golongan Darah(A, B, AB, O): ");
     scanf("%s",goldar);
-
+    fflush(stdin);
     while (strcmp(goldar, "A") && strcmp(goldar, "B") && strcmp(goldar, "AB") && strcmp(goldar, "O")){
-        printf("Golongan darah yang anda masukkan salah\nMasukkan Golongan Darah: ");
+        printf("Golongan darah yang anda masukkan salah\nMasukkan Golongan Darah(A, B, AB, O): ");
         scanf("%s",goldar);
     }
     strcpy(tempPend->goldar, goldar);
+    fflush(stdin);
 
     printf("Apakah anda sudah menikah?\n");
     printf("0. Tidak  1. Ya\n");
     int nikah;
-    printf("Jawaban anda :");
+    printf("Jawaban anda(pilih angka) :");
     scanf("%d", &nikah);
     while (nikah != 0 && nikah != 1){
         printf("Apakah anda sudah menikah?\n");
         
         printf("0. Tidak  1. Ya\n");
-        printf("Jawaban anda: ");
+        printf("Jawaban anda(pilih angka): ");
         int nikah;
         scanf("%d", &nikah);
     }
